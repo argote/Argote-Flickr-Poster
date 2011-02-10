@@ -1,0 +1,110 @@
+/* Color scheme: http://www.colorcombos.com/color-scheme-273.html */
+
+A:link {
+	text-decoration: none;
+	color: #CCCCCC;
+}
+
+A:visited {
+	text-decoration: none;
+	color: #CCCCCC;
+}
+
+A:active {
+	text-decoration: none;
+	color: #CCCCCC;
+}
+
+A:hover {
+	text-decoration: none;
+	color: #EEEEEE;
+}
+
+body {
+	font-family: arial,helvetica,sans-serif;
+	font-size: medium;
+	color: #FFFFFF;
+	background-color: #BBBBBB;
+	background-image: url(../images/bck.png);
+	background-repeat: repeat;
+}
+
+.title {
+	font-size: xx-large;
+}
+
+.legend {
+	font-size: large;
+}
+
+.beta {
+	font-size: xx-large;
+	color: #CC0000;
+}
+
+.codigo {
+	font-family: monospace;
+	font-size: small;
+	width: 675px;
+}
+
+.footer {
+	font-size: x-small;
+	text-align: center;
+	padding: 0px;
+	margin-bottom: 0px;
+}
+
+.loader {
+	padding: 30px;
+	text-align: center;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.photorow {
+	background-color: #111111;
+	vertical-align: middle;
+}
+
+.photos {
+	text-align: center;
+	padding: 5px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.controlLabel {
+	text-align: right;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.message {
+	text-align: center;
+	background-color: #333333;
+	border-color: #000000;
+	border-style: solid;
+	border-width: 5px;
+	padding: 15px;
+	position: relative;
+	left: auto;
+	top: 120px;
+	margin-left: auto;
+	margin-right: auto;
+	width: 400px;
+}
+
+.content {
+	background-color: #333333;
+	border-color: #000000;
+	border-style: solid;
+	border-width: 5px;
+	padding: 15px;
+	position: relative;
+	left: auto;
+	margin-left: auto;
+	margin-right: auto;
+	width: 960px;
+}

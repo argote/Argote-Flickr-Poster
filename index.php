@@ -6,6 +6,9 @@
 		<title>Argote's Flickr poster for IPB forums</title>
 		<script type="text/javascript" src="javascript/jquery-1.4.4.min.js"></script>
 		<script type="text/javascript" src="javascript/jquery.tablednd_0_5.js"></script>
+		<script type="text/javascript" src="javascript/argote_const_var.js"></script>
+		<script type="text/javascript" src="javascript/argote_helper.js"></script>
+		<script type="text/javascript" src="javascript/argote_ui.js"></script>
 		<script type="text/javascript" src="javascript/argote_flickr.js"></script>
 		<script type="text/javascript">
 			var _gaq = _gaq || [];
@@ -22,7 +25,7 @@
 	<body>
 		<div id="contenido" class="content">
 			<div class="title">Argote's Flickr poster for IPB forums <span class="beta">BETA</span></div>
-			Version 0.4.110201<br /><br />
+			Version 0.4.3, last updated February 21, 2011<br /><br />
 			<fieldset id="userInfo">
 				<legend class="legend">User Info</legend>
 				<input id="user" type="text" value="Enter your Flickr username here (the one in your URL)" size="60" onclick="make_blank()" />

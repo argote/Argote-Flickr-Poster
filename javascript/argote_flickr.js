@@ -1,247 +1,40 @@
 // Author: Luis Edgardo Argote Bolio
-// Author email: luis@luisargote.com
+// Author email: luis@argote.mx
 
-window.onload = init;
+// This file contains the functions which constitute the main flow of the program and make calls to APIs
 
-// These are variables that are used throughout the code
-var API_key = '0b10ac3b8cc11da085d447ea647dbe67';
-var json = '&format=json&jsoncallback=?';
-var images = {};
-var page = 1;
-var currentRequest = 1;
-var totalPhotos = 0;
-var totalPages = 0;
-var photosPerPage = 20;
-var ajaxRequestsPerPhoto = 3;
-var settingsOrder = 'titleSize&photoSize&description&dateTaken&cameraMake&cameraModel&lens&focalLength&mode&aperture&exposureTime&iso&equiv35mm&location&latitudeLongitude&map';
 
-// These GM variables are for the Google Maps API
-var GM_size = '400x400';
-var GM_maptype = 'hybrid';
-
-// This is a function that is called on load and initializes a few things
-function init() {
+// This function is executed when the page finishes loading, it does three things:
+// 1. Hides some of the elements from view
+// 2. Loads the Table Drag and Drop library for the settings table
+// 3. Establishes the ajaxStop global event that handles data displaying when the data querying
+// for information on photos from Flickr is done, it is loaded and binded with the page
+jQuery(document).ready(function($) {
 	$('#photos').hide();
 	$('#loader').hide();
 	$('#locationSettings').hide();
-}
-
-// This function deletes the content of the user bar
-function make_blank() {
-	document.getElementById('user').value = "";
-}
-
-// This function updates the Photo Request Counter in the loadStatus section
-function updatePhotoRequestCounter() {
-	document.getElementById('loadStatus').innerHTML = 'Getting Information for Photos ' + (((page - 1) * photosPerPage) + 1)
-		+ ' through ' + (page * photosPerPage > totalPhotos? totalPhotos : page * photosPerPage)
-		+ ' (' + currentRequest + ' out of '
-		+ ((page * photosPerPage > totalPhotos? totalPhotos : page * photosPerPage) * ajaxRequestsPerPhoto) + ' requests completed)';
-}
-
-// This adds the title section, if available and activated
-function generateTitle(id) {
-	if(document.getElementById('titleSize').value != 0 && images[id].title != "") {
-		return ('[size=' + document.getElementById('titleSize').value + ']' + images[id].title + '[/size]');
-	}
-	return '';
-}
-
-// This adds the photo itself (in the specified size) and the link back to the Flickr page
-function generatePhoto(id) {
-	return ('[url=' + images[id].link + '][img]' + images[id].url + document.getElementById('photoSize').value +'[/img][/url]');
-}
-
-// This adds the comments, if available and activated
-function generateComments(id) {
-	if(document.getElementById('description').checked == true && images[id].description != "") {
-		return (images[id].description + '');
-	}
-	return '';
-}
-
-// This adds the dateTaken, if available
-function generateDateTaken(id) {
-	if(document.getElementById('dateTaken').checked == true && images[id].dateTaken != "") {
-		return ('Date Taken: ' + images[id].dateTaken);
-	}
-	return '';
-}
-
-// This adds the Location, if available, in [locality, county, region, country] format
-function generateLocation(id) {
-	var salida = '';
-	if(document.getElementById('location').checked == true && (images[id].country != "" || images[id].county != "" || images[id].locality != "" || images[id].region != "")) {
-		salida += 'Location: ';
-		if(document.getElementById('locality').checked == true && images[id].locality != "") {
-			salida += images[id].locality + ', ';
-		}
-		if(document.getElementById('county').checked == true && images[id].county != "") {
-			salida += images[id].county + ', ';
-		}
-		if(document.getElementById('region').checked == true && images[id].region != "") {
-			salida += images[id].region + ', ';
-		}
-		if(document.getElementById('country').checked == true && images[id].country != "") {
-			salida += images[id].country;
-		}
-	}
-	return salida;
-}
-
-// This adds the Latitude and Longitude, if available
-function generateLatitudeLongitude(id) {
-	if(document.getElementById('latitudeLongitude').checked == true && images[id].latitude != "" && images[id].logitude != "") {
-		return ('Latitude/Longitude: ' + images[id].latitude + ', ' + images[id].longitude);
-	}
-	return '';
-}
-
-// This adds the Camera make/brand, if available
-function generateCameraMake(id) {
-	if(document.getElementById('cameraMake').checked == true && images[id].cameraMake != "") {
-		return('Camera Make: ' + images[id].cameraMake);
-	}
-	return '';
-}
-
-// This adds the Camera model, if available
-function generateCameraModel(id) {
-	if(document.getElementById('cameraModel').checked == true && images[id].cameraModel != "") {
-		return('Camera Model: ' + images[id].cameraModel);
-	}
-	return '';
-}
-
-// This adds the lens information, if available
-function generateLens(id) {
-	if(document.getElementById('lens').checked == true && images[id].lens != "") {
-		return('Lens: ' + images[id].lens);
-	}
-	return '';
-}
-
-// This adds the focal length information, if available
-function generateFocalLength(id) {
-	if(document.getElementById('focalLength').checked == true && images[id].focalLength != "") {
-		return('Focal Length: ' + images[id].focalLength);
-	}
-	return '';
-}
-
-// This adds the focal length equivalency in 35mm format, if available
-function generateEquiv35mm(id) {
-	if(document.getElementById('equiv35mm').checked == true && images[id].focalLength35 != "") {
-		return('35mm Equivalent: ' + images[id].focalLength35);
-	}
-	return '';
-}
-
-// This adds the shooting mode, if available
-function generateMode(id) {
-	if(document.getElementById('mode').checked == true && images[id].mode != "") {
-		return('Mode: ' + images[id].mode);
-	}
-	return '';
-}
-
-// This adds the aperture information, if available
-function generateAperture(id) {
-	if(document.getElementById('aperture').checked == true && images[id].aperture != "") {
-		return('Aperture: ' + images[id].aperture);
-	}
-	return '';
-}
-
-// This adds the exposure time information, if available
-function generateExposureTime(id) {
-	if(document.getElementById('exposureTime').checked == true && images[id].exposureTime != "") {
-		return('Exposure Time: ' + images[id].exposureTime);
-	}
-}
-
-// This adds the ISO information, if available
-function generateISO(id) {
-	if(document.getElementById('iso').checked == true && images[id].iso != "") {
-		return('ISO: ' + images[id].iso);
-	}
-}
-
-// This adds the map image, if available
-function generateMap(id) {
-	if(document.getElementById('includeGoogleMaps').checked == true && images[id].GM_MapURL != "") {
-		return('[img]' + images[id].GM_MapURL + '[/img]');
-	}
-	return "";
-}
-
-// This function generates the actual codes for each image give its ID and returns it in a string
-// before calling this we must make sure that the images array is initialized with the pertinent data
-function generateCode(id) {
-	var salida = '';
 	
-	var order = settingsOrder.split("&");
-	
-	for(setting in order) {
-		switch(order[setting]) {
-		case 'titleSize':
-			salida += generateTitle(id) + '<br />';
-			break;
-		case 'photoSize':	
-			salida += generatePhoto(id) + '<br />';
-			break;
-		case 'description':
-			salida += generateComments(id) + '<br />';
-			break;
-		case 'dateTaken':
-			salida += '<br />' + generateDateTaken(id);
-			break;
-		case 'cameraMake':
-			salida += '<br />' + generateCameraMake(id);
-			break;
-		case 'cameraModel':
-			salida += '<br />' + generateCameraModel(id);
-			break;
-		case 'lens':
-			salida += '<br />' + generateLens(id);
-			break;
-		case 'focalLength':
-			salida += '<br />' + generateFocalLength(id);
-			break;
-		case 'mode':
-			salida += '<br />' + generateMode(id);
-			break;
-		case 'aperture':
-			salida += '<br />' + generateAperture(id);
-			break;
-		case 'exposureTime':
-			salida += '<br />' + generateExposureTime(id);
-			break;
-		case 'iso':
-			salida += '<br />' + generateISO(id);
-			break;
-		case 'equiv35mm':
-			salida += '<br />' + generateEquiv35mm(id);
-			break;
-		case 'location':
-			salida += '<br />' + generateLocation(id);
-			break;
-		case 'latitudeLongitude':
-			salida += '<br />' + generateLatitudeLongitude(id);
-			break;
-		case 'map':
-			salida += '<br /><br />' + generateMap(id);
-			break;
+	// This is what loads the Table Drag and Drop library for the settings table
+	$("#settingsTable").tableDnD({
+		onDrop: function(table, row) {
+			settingsOrder = cleanOrder($.tableDnD.serialize());
 		}
-	}
+	});
 	
-	return salida
-}
+	// This is what displays the photos when all of the AJAX requests have received their responses (ajaxStop)
+	$("#photos").ajaxStop(function() {
+		// The page counter is incremented for the next page to be requested next time
+		page += 1;
 
-// This takes care of adding the photos to the table as well as hiding/showing some elements in the interface
+		// Add the data for the newly obtained photos to the table
+		prepareToAddPhotos();
+		addPhotosToTable();
+		readyInterface();
+	});
+});
+
+// This takes care of adding the photos to the table
 function addPhotosToTable() {
-	$("#moreRow").remove();
-
 	// Add each of the images we have not added to the table yet	
 	$.each(images, function(i, image) {
 		var id = image.id;
@@ -249,18 +42,6 @@ function addPhotosToTable() {
 			$('<tr class=\"photorow\"><td class=\"photos\" height=\"240\" width=\"240\"><img src=\"' + images[id].url + '_m.jpg\"></td></tr>').attr("id", id).appendTo("#images");
 			$('<td class=\"codigo\">' + generateCode(id) + '</td>').attr("id", 'c_' + id).appendTo('#' + id);
 		}	
-	});
-
-	// This adds a new "More" button, it is deleted and re-added so that it is always at the bottom, but first we check if there are more pages
-	if(page <= totalPages) { // We use <= rather than < since page is incremented before we reach this point
-		$('<tr id=\"moreRow\"><td rowspan=\"2\"><input id=\"moreButton\" type=\"button\" value=\"Get More (Page ' + page + ' of ' + totalPages + ')\" onclick=\"getUserID()\" \/></td></tr>').attr("id", "moreRow").appendTo("#images");	
-	}
-		
-	// This basically fades out the loader animation and, when it's done with that, fades in the photos
-	$("#loader").fadeOut(600, function() {
-		// Delete all text in load status to prepare for next load
-		document.getElementById('loadStatus').innerHTML = "";
-		$("#photos").fadeIn(2000);
 	});
 }
 
@@ -444,6 +225,21 @@ function getPhotos(usr) {
 	});
 }
 
+// This gets the sets for a particular user
+function getSets(usr) {
+	var Req_addr = 'http://api.flickr.com/services/rest/?method=flickr.photosets.getList' + '&api_key=' + API_key + '&user_id=' + usr + json
+	$.getJSON(Req_addr, function(data) {
+		$.each(data.photosets.photoset, function(i, set) {
+			sets[i] = {
+				id: set.id,
+				photos: set.photos,
+				title: set.title._content,
+				description: set.description._content
+			};
+		});
+	});
+}
+
 // This removes setting panels and gets the user ID from a given Flickr user page URL
 function getUserID() {
 	document.getElementById('loadStatus').innerHTML = "Getting User Data...";
@@ -455,6 +251,7 @@ function getUserID() {
 		if(data.stat == 'ok' && 'id' in data.user) {
 			// Once the user is known, data about its photos is requested
 			getPhotos(data.user.id);
+			getSets(data.user.id);
 		}
 		else {
 			var error = "Error getting information for user \"" + usr + "\", please verify the username, it should be the same one shown in your Flickr URL." +
@@ -472,54 +269,6 @@ function getUserID() {
 		$("#loader").slideDown(750);
 	});
 }
-
-// This function is executed when the page finishes loading, it does two things:
-// 1. Loads the Table Drag and Drop library for the settings table
-// 2. Establishes the ajaxStop global event that handles data displaying when the data querying
-// for information on photos from Flickr is done, it is loaded and binded with the page
-jQuery(document).ready(function($) {
-	// This is what loads the Table Drag and Drop library for the settings table
-	$("#settingsTable").tableDnD({
-		onDrop: function(table, row) {
-			settingsOrder = cleanOrder($.tableDnD.serialize());
-		}
-	});	
-	
-	// This is what displays the photos when all of the AJAX requests have received their responses (ajaxStop)
-	$("#photos").ajaxStop(function() {
-		// The page counter is incremented for the next page to be requested next time
-		page += 1;
-
-		// Add the data for the newly obtained photos to the table
-		addPhotosToTable();
-	});
-});
-
-// This function cleans the string returned by the Drag and Drop plugin which states the order of
-// the rows on the table. This is for the string to be more easily useful.
-function cleanOrder(str) {
-	str = str.replace(/settingsTable\[\]=/g, ""); // Gets rid of the table name as that is not needed
-	str = str.replace(/Row/g, ""); // Gets rid of the Row suffix to reference the inner element
-	return str;
-}
-
-// This function shows/hides the location settings when the location checkbox selected/unselected
-$('#location').live('click', function() {
-	if ($('#location:checked').length) {
-		$("#locationSettings").slideDown(200);
-	}
-	else {
-		$("#locationSettings").slideUp(200);
-	}
-});
-
-// This enables the ENTER key to be used in the user textbox - Does NOT work for some reason...
-$('#user').keypress(function(e) {
-	if(e.which == 13) { // 13 is the value for ENTER
-		e.preventDefault();
-		getUserID();
-	}
-});
 
 // This gets a Google Maps static image with the given zoom level, size, map type and coordinates
 // Example URL generated: http://maps.google.com/maps/api/staticmap?zoom=20&size=400x640&maptype=hybrid&markers=25.679841,-100.284286&sensor=false
@@ -547,4 +296,4 @@ function getMaxGoogleMapsZoomAtLocation(latitude, longitude) {
 
 // http://api.flickr.com/services/rest/?method=flickr.urls.lookupUser&api_key=0b10ac3b8cc11da085d447ea647dbe67&url=http%3A%2F%2Fflickr.com%2Fphotos%2Fargote&format=json&jsoncallback=?
 
-// http://api.flickr.com/services/rest/?method=flickr.photosets.getList&api_key=0b10ac3b8cc11da085d447ea647dbe67&user_id=25184435%40N00&format=json
+// http://api.flickr.com/services/rest/?method=flickr.photosets.getList&api_key=0b10ac3b8cc11da085d447ea647dbe67&user_id=25184435%40N00&format=json&jsoncallback=?

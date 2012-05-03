@@ -148,55 +148,59 @@ function generateCode(id) {
 	var order = settingsOrder.split("&");
 	
 	for(setting in order) {
+		var tmp = '';
 		switch(order[setting]) {
 		case 'titleSize':
-			salida += generateTitle(id) + '<br />';
+			tmp += generateTitle(id) + '<br />';
 			break;
 		case 'photoSize':	
-			salida += generatePhoto(id) + '<br />';
+			tmp += generatePhoto(id) + '<br />';
 			break;
 		case 'description':
-			salida += generateComments(id) + '<br />';
+			tmp += generateComments(id) + '<br />';
 			break;
 		case 'dateTaken':
-			salida += '<br />' + generateDateTaken(id);
+			tmp += '<br />' + generateDateTaken(id);
 			break;
 		case 'cameraMake':
-			salida += '<br />' + generateCameraMake(id);
+			tmp += '<br />' + generateCameraMake(id);
 			break;
 		case 'cameraModel':
-			salida += '<br />' + generateCameraModel(id);
+			tmp += '<br />' + generateCameraModel(id);
 			break;
 		case 'lens':
-			salida += '<br />' + generateLens(id);
+			tmp += '<br />' + generateLens(id);
 			break;
 		case 'focalLength':
-			salida += '<br />' + generateFocalLength(id);
+			tmp += '<br />' + generateFocalLength(id);
 			break;
 		case 'mode':
-			salida += '<br />' + generateMode(id);
+			tmp += '<br />' + generateMode(id);
 			break;
 		case 'aperture':
-			salida += '<br />' + generateAperture(id);
+			tmp += '<br />' + generateAperture(id);
 			break;
 		case 'exposureTime':
-			salida += '<br />' + generateExposureTime(id);
+			tmp += '<br />' + generateExposureTime(id);
 			break;
 		case 'iso':
-			salida += '<br />' + generateISO(id);
+			tmp += '<br />' + generateISO(id);
 			break;
 		case 'equiv35mm':
-			salida += '<br />' + generateEquiv35mm(id);
+			tmp += '<br />' + generateEquiv35mm(id);
 			break;
 		case 'location':
-			salida += '<br />' + generateLocation(id);
+			tmp += '<br />' + generateLocation(id);
 			break;
 		case 'latitudeLongitude':
-			salida += '<br />' + generateLatitudeLongitude(id);
+			tmp += '<br />' + generateLatitudeLongitude(id);
 			break;
 		case 'map':
-			salida += '<br /><br />' + generateMap(id);
+			tmp += '<br /><br />' + generateMap(id);
 			break;
+		}
+		if(tmp != '<br />' && tmp != '<br /><br />') {
+			salida += tmp;
 		}
 	}
 	

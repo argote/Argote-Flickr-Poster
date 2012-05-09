@@ -140,6 +140,18 @@ function generateMap(id) {
 	return "";
 }
 
+// This function obtains the selected separator for most fields
+function getSeparator() {
+	if(document.getElementById('separator').value == 0) {
+		return '<br />'
+	}
+	var out = '';
+	for(var i = 0; i < document.getElementById('separator').value; i++) {
+		out += '&nbsp;';
+	}
+	return out;
+}
+
 // This function generates the actual codes for each image give its ID and returns it in a string
 // before calling this we must make sure that the images array is initialized with the pertinent data
 function generateCode(id) {
@@ -147,59 +159,61 @@ function generateCode(id) {
 	
 	var order = settingsOrder.split("&");
 	
+	var separator = getSeparator();
+	
 	for(setting in order) {
 		var tmp = '';
 		switch(order[setting]) {
 		case 'titleSize':
-			tmp += generateTitle(id) + '<br />';
+			tmp = generateTitle(id) + '<br />';
 			break;
-		case 'photoSize':	
-			tmp += generatePhoto(id) + '<br />';
+		case 'photoSize':
+			tmp = generatePhoto(id) + '<br />';
 			break;
 		case 'description':
-			tmp += generateComments(id) + '<br />';
+			tmp = generateComments(id) + separator + '<br />';
 			break;
 		case 'dateTaken':
-			tmp += '<br />' + generateDateTaken(id);
+			tmp = generateDateTaken(id) + separator;
 			break;
 		case 'cameraMake':
-			tmp += '<br />' + generateCameraMake(id);
+			tmp = generateCameraMake(id) + separator;
 			break;
 		case 'cameraModel':
-			tmp += '<br />' + generateCameraModel(id);
+			tmp = generateCameraModel(id) + separator;
 			break;
 		case 'lens':
-			tmp += '<br />' + generateLens(id);
+			tmp = generateLens(id) + separator;
 			break;
 		case 'focalLength':
-			tmp += '<br />' + generateFocalLength(id);
+			tmp = generateFocalLength(id) + separator;
 			break;
 		case 'mode':
-			tmp += '<br />' + generateMode(id);
+			tmp = generateMode(id) + separator;
 			break;
 		case 'aperture':
-			tmp += '<br />' + generateAperture(id);
+			tmp = generateAperture(id) + separator;
 			break;
 		case 'exposureTime':
-			tmp += '<br />' + generateExposureTime(id);
+			tmp = generateExposureTime(id) + separator;
 			break;
 		case 'iso':
-			tmp += '<br />' + generateISO(id);
+			tmp = generateISO(id) + separator;
 			break;
 		case 'equiv35mm':
-			tmp += '<br />' + generateEquiv35mm(id);
+			tmp = generateEquiv35mm(id) + separator;
 			break;
 		case 'location':
-			tmp += '<br />' + generateLocation(id);
+			tmp = generateLocation(id) + separator;
 			break;
 		case 'latitudeLongitude':
-			tmp += '<br />' + generateLatitudeLongitude(id);
+			tmp = generateLatitudeLongitude(id) + separator;
 			break;
 		case 'map':
-			tmp += '<br /><br />' + generateMap(id);
+			tmp = '<br />' + generateMap(id) + separator;
 			break;
 		}
-		if(tmp != '<br />' && tmp != '<br /><br />') {
+		if(tmp != separator && tmp != ('<br />' + separator)) {
 			salida += tmp;
 		}
 	}

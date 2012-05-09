@@ -25,7 +25,7 @@
 	<body>
 		<div id="contenido" class="content">
 			<div class="title">Argote's Flickr poster for IPB forums <span class="beta">BETA</span></div>
-			Version 0.4.3, last updated February 21, 2011<br /><br />
+			Version 0.4.6, last updated May 9th, 2012<br /><br />
 			<fieldset id="userInfo">
 				<legend class="legend">User Info</legend>
 				<input id="user" type="text" value="Enter your Flickr username here (the one in your URL)" size="60" onclick="make_blank()" />
@@ -227,6 +227,22 @@
 						</td>
 						<td>
 							<input id="includeGoogleMaps" type="checkbox" value="Include Map" />(NOT supported on all forums)
+						</td>
+					</tr>
+					<tr id="separatorRow" class="nodrag nodrop">
+						<td class="dragLabel">
+							&nbsp;
+						</td>
+						<td class="controlLabel">
+							<label for="separator">Separator</label>
+						</td>
+						<td>
+							<select id="separator">
+								<option value="0" selected="selected">Newline</option>
+								<option value="2">2 spaces</option>
+								<option value="3">3 spaces</option>
+								<option value="4">4 spaces</option>
+							</select>
 						</td>
 					</tr>
 				</table>

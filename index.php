@@ -242,6 +242,7 @@
 								<option value="2">2 spaces</option>
 								<option value="3">3 spaces</option>
 								<option value="4">4 spaces</option>
+								<option value="-1"> | </option>
 							</select>
 						</td>
 					</tr>

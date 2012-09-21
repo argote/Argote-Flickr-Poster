@@ -143,10 +143,10 @@ function generateMap(id) {
 // This function obtains the selected separator for most fields
 function getSeparator() {
 	if(document.getElementById('separator').value == 0) {
-		return '<br />'
+		return '<br />';
 	}
-	if(document.getElementById('separator').value == -1) {
-		return '&nbsp;|&nbsp;'
+	if(document.getElementById('separator').value == 1) {
+		return '&nbsp;|&nbsp;';
 	}
 	var out = '';
 	for(var i = 0; i < document.getElementById('separator').value; i++) {
@@ -174,54 +174,55 @@ function generateCode(id) {
 			tmp = generatePhoto(id) + '<br />';
 			break;
 		case 'description':
-			tmp = generateComments(id) + separator + '<br />';
+			tmp = generateComments(id) + '<br />';
 			break;
 		case 'dateTaken':
-			tmp = generateDateTaken(id) + separator;
+			tmp = generateDateTaken(id);
 			break;
 		case 'cameraMake':
-			tmp = generateCameraMake(id) + separator;
+			tmp = generateCameraMake(id);
 			break;
 		case 'cameraModel':
-			tmp = generateCameraModel(id) + separator;
+			tmp = generateCameraModel(id);
 			break;
 		case 'lens':
-			tmp = generateLens(id) + separator;
+			tmp = generateLens(id);
 			break;
 		case 'focalLength':
-			tmp = generateFocalLength(id) + separator;
+			tmp = generateFocalLength(id);
 			break;
 		case 'mode':
-			tmp = generateMode(id) + separator;
+			tmp = generateMode(id);
 			break;
 		case 'aperture':
-			tmp = generateAperture(id) + separator;
+			tmp = generateAperture(id);
 			break;
 		case 'exposureTime':
-			tmp = generateExposureTime(id) + separator;
+			tmp = generateExposureTime(id);
 			break;
 		case 'iso':
-			tmp = generateISO(id) + separator;
+			tmp = generateISO(id);
 			break;
 		case 'equiv35mm':
-			tmp = generateEquiv35mm(id) + separator;
+			tmp = generateEquiv35mm(id);
 			break;
 		case 'location':
-			tmp = generateLocation(id) + separator;
+			tmp = generateLocation(id);
 			break;
 		case 'latitudeLongitude':
-			tmp = generateLatitudeLongitude(id) + separator;
+			tmp = generateLatitudeLongitude(id);
 			break;
 		case 'map':
-			tmp = '<br />' + generateMap(id) + separator;
+			tmp = '<br />' + generateMap(id);
 			break;
 		}
+		tmp += separator;
 		if(tmp != separator && tmp != ('<br />' + separator)) {
 			salida += tmp;
 		}
 	}
 	
-	return salida
+	return salida.substring(0, salida.length - separator.length);
 }
 
 // This function cleans the string returned by the Drag and Drop plugin which states the order of

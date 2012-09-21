@@ -168,13 +168,13 @@ function generateCode(id) {
 		var tmp = '';
 		switch(order[setting]) {
 		case 'titleSize':
-			tmp = generateTitle(id) + '<br />';
+			tmp = generateTitle(id) + (separator == '<br />' ? '' : '<br />');
 			break;
 		case 'photoSize':
-			tmp = generatePhoto(id) + '<br />';
+			tmp = generatePhoto(id) + (separator == '<br />' ? '' : '<br />');
 			break;
 		case 'description':
-			tmp = generateComments(id) + '<br />';
+			tmp = generateComments(id) + (separator == '<br />' ? '' : '<br />');
 			break;
 		case 'dateTaken':
 			tmp = generateDateTaken(id);

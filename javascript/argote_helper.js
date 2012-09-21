@@ -168,61 +168,69 @@ function generateCode(id) {
 		var tmp = '';
 		switch(order[setting]) {
 		case 'titleSize':
-			tmp = generateTitle(id) + (separator == '<br />' ? '' : '<br />');
+			tmp = generateTitle(id) + '<br />';
 			break;
 		case 'photoSize':
-			tmp = generatePhoto(id) + (separator == '<br />' ? '' : '<br />');
+			tmp = generatePhoto(id) + '<br />';
 			break;
 		case 'description':
-			tmp = generateComments(id) + (separator == '<br />' ? '' : '<br />');
+			tmp = generateComments(id) + '<br />';
 			break;
 		case 'dateTaken':
-			tmp = generateDateTaken(id);
+			tmp = generateDateTaken(id) + separator;
 			break;
 		case 'cameraMake':
-			tmp = generateCameraMake(id);
+			tmp = generateCameraMake(id) + separator;
 			break;
 		case 'cameraModel':
-			tmp = generateCameraModel(id);
+			tmp = generateCameraModel(id) + separator;
 			break;
 		case 'lens':
-			tmp = generateLens(id);
+			tmp = generateLens(id) + separator;
 			break;
 		case 'focalLength':
-			tmp = generateFocalLength(id);
+			tmp = generateFocalLength(id) + separator;
 			break;
 		case 'mode':
-			tmp = generateMode(id);
+			tmp = generateMode(id) + separator;
 			break;
 		case 'aperture':
-			tmp = generateAperture(id);
+			tmp = generateAperture(id) + separator;
 			break;
 		case 'exposureTime':
-			tmp = generateExposureTime(id);
+			tmp = generateExposureTime(id) + separator;
 			break;
 		case 'iso':
-			tmp = generateISO(id);
+			tmp = generateISO(id) + separator;
 			break;
 		case 'equiv35mm':
-			tmp = generateEquiv35mm(id);
+			tmp = generateEquiv35mm(id) + separator;
 			break;
 		case 'location':
-			tmp = generateLocation(id);
+			tmp = generateLocation(id) + separator;
 			break;
 		case 'latitudeLongitude':
-			tmp = generateLatitudeLongitude(id);
+			tmp = generateLatitudeLongitude(id) + separator;
 			break;
 		case 'map':
-			tmp = '<br />' + generateMap(id);
+			tmp = '<br />' + generateMap(id) + separator;
 			break;
 		}
-		tmp += separator;
-		if(tmp != separator && tmp != ('<br />' + separator)) {
+		if(tmp != separator && tmp != ('<br />' + separator) && tmp != '<br />') {
 			salida += tmp;
 		}
 	}
 	
-	return salida.substring(0, salida.length - separator.length);
+	if(salida.substring(salida.length - separator.length) == separator) {
+		salida = salida.substring(0, salida.length - separator.length);
+	}
+	
+	return salida;
+}
+
+
+function generateMeta(id) {
+
 }
 
 // This function cleans the string returned by the Drag and Drop plugin which states the order of

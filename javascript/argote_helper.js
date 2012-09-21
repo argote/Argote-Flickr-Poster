@@ -145,6 +145,9 @@ function getSeparator() {
 	if(document.getElementById('separator').value == 0) {
 		return '<br />'
 	}
+	if(document.getElementById('separator').value == -1) {
+		return '&nbsp;|&nbsp;'
+	}
 	var out = '';
 	for(var i = 0; i < document.getElementById('separator').value; i++) {
 		out += '&nbsp;';

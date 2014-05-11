@@ -47,7 +47,7 @@ function addPhotosToTable() {
 
 // This function adds the Title, Description and URLs to the images array for a given photo ID
 function getInfo(id) {
-	var Req_addr = 'http://api.flickr.com/services/rest/?method=flickr.photos.getInfo&api_key=' + API_key + '&photo_id=' + id + json
+	var Req_addr = 'https://api.flickr.com/services/rest/?method=flickr.photos.getInfo&api_key=' + API_key + '&photo_id=' + id + json
 	$.getJSON(Req_addr, function(data) {
 		updatePhotoRequestCounter();
 		if('title' in data.photo) {
@@ -93,7 +93,7 @@ function getInfo(id) {
 
 // This function obtains various EXIF information from a given photo ID and adds that data to the images array
 function getEXIFData(id) {
-	var Req_addr = 'http://api.flickr.com/services/rest/?method=flickr.photos.getExif&api_key=' + API_key + '&photo_id=' + id + json
+	var Req_addr = 'https://api.flickr.com/services/rest/?method=flickr.photos.getExif&api_key=' + API_key + '&photo_id=' + id + json
 	$.getJSON(Req_addr, function(data) {
 		updatePhotoRequestCounter();
 		// This iterates through all of the EXIF information that Flickr returned and checks
@@ -153,7 +153,7 @@ function getEXIFData(id) {
 // The size parameter is not really necessary as long as it doesn't get the original size image
 // since the ending is trimmed anyway
 function getData(id, fSize) {
-	var Req_addr = 'http://api.flickr.com/services/rest/?method=flickr.photos.getSizes&api_key=' + API_key + '&photo_id=' + id + json
+	var Req_addr = 'https://api.flickr.com/services/rest/?method=flickr.photos.getSizes&api_key=' + API_key + '&photo_id=' + id + json
 	$.getJSON(Req_addr, function(data) {
 		updatePhotoRequestCounter();
 		$.each(data.sizes.size, function(i, size) {
@@ -216,7 +216,7 @@ function getPhotoData(data) {
 function getPhotos(usr) {	
 	// This initiates a request for the list of public photos from the user specified
 	document.getElementById('loadStatus').innerHTML = "Getting Photo Data...";
-	var Req_addr = 'http://api.flickr.com/services/rest/?method=flickr.people.getPublicPhotos&per_page=' + photosPerPage + '&page=' + page + '&api_key=' + API_key + '&user_id=' + usr + json
+	var Req_addr = 'https://api.flickr.com/services/rest/?method=flickr.people.getPublicPhotos&per_page=' + photosPerPage + '&page=' + page + '&api_key=' + API_key + '&user_id=' + usr + json
 	$.getJSON(Req_addr, function(data) {
 		totalPhotos = data.photos.total;
 		totalPages = data.photos.pages;
@@ -227,7 +227,7 @@ function getPhotos(usr) {
 
 // This gets the sets for a particular user
 function getSets(usr) {
-	var Req_addr = 'http://api.flickr.com/services/rest/?method=flickr.photosets.getList' + '&api_key=' + API_key + '&user_id=' + usr + json
+	var Req_addr = 'https://api.flickr.com/services/rest/?method=flickr.photosets.getList' + '&api_key=' + API_key + '&user_id=' + usr + json
 	$.getJSON(Req_addr, function(data) {
 		$.each(data.photosets.photoset, function(i, set) {
 			sets[i] = {
@@ -246,7 +246,7 @@ function getUserID() {
 	$("#moreRow").hide(350);
 	
 	var usr = document.getElementById('user').value
-	var Req_addr = 'http://api.flickr.com/services/rest/?method=flickr.urls.lookupUser&api_key=' + API_key + '&url=http%3A%2F%2Fflickr.com%2Fphotos%2F' + usr + json
+	var Req_addr = 'https://api.flickr.com/services/rest/?method=flickr.urls.lookupUser&api_key=' + API_key + '&url=https%3A%2F%2Fflickr.com%2Fphotos%2F' + usr + json
 	$.getJSON(Req_addr, function(data) {
 		if(data.stat == 'ok' && 'id' in data.user) {
 			// Once the user is known, data about its photos is requested
@@ -283,17 +283,17 @@ function getMaxGoogleMapsZoomAtLocation(latitude, longitude) {
 }
 
 
-// http://api.flickr.com/services/rest/?method=flickr.people.findByUsername&api_key=0b10ac3b8cc11da085d447ea647dbe67&format=json
+// https://api.flickr.com/services/rest/?method=flickr.people.findByUsername&api_key=0b10ac3b8cc11da085d447ea647dbe67&format=json
 
-// http://api.flickr.com/services/rest/?method=flickr.people.getPublicPhotos&api_key=0b10ac3b8cc11da085d447ea647dbe67&user_id=25184435%40N00&format=json
-// http://api.flickr.com/services/rest/?method=flickr.people.getPublicPhotos&per_page=20&page=1&api_key=0b10ac3b8cc11da085d447ea647dbe67&user_id=25184435%40N00&format=json
+// https://api.flickr.com/services/rest/?method=flickr.people.getPublicPhotos&api_key=0b10ac3b8cc11da085d447ea647dbe67&user_id=25184435%40N00&format=json
+// https://api.flickr.com/services/rest/?method=flickr.people.getPublicPhotos&per_page=20&page=1&api_key=0b10ac3b8cc11da085d447ea647dbe67&user_id=25184435%40N00&format=json
 
-// http://api.flickr.com/services/rest/?method=flickr.photos.getSizes&api_key=0b10ac3b8cc11da085d447ea647dbe67&photo_id=4775693677&format=json&jsoncallback=?
+// https://api.flickr.com/services/rest/?method=flickr.photos.getSizes&api_key=0b10ac3b8cc11da085d447ea647dbe67&photo_id=4775693677&format=json&jsoncallback=?
 
-// http://api.flickr.com/services/rest/?method=flickr.photos.getExif&api_key=0b10ac3b8cc11da085d447ea647dbe67&photo_id=4775693677&format=json&jsoncallback=?
+// https://api.flickr.com/services/rest/?method=flickr.photos.getExif&api_key=0b10ac3b8cc11da085d447ea647dbe67&photo_id=4775693677&format=json&jsoncallback=?
 
-// http://api.flickr.com/services/rest/?method=flickr.photos.getInfo&api_key=0b10ac3b8cc11da085d447ea647dbe67&photo_id=4775693677&format=json&jsoncallback=?
+// https://api.flickr.com/services/rest/?method=flickr.photos.getInfo&api_key=0b10ac3b8cc11da085d447ea647dbe67&photo_id=4775693677&format=json&jsoncallback=?
 
-// http://api.flickr.com/services/rest/?method=flickr.urls.lookupUser&api_key=0b10ac3b8cc11da085d447ea647dbe67&url=http%3A%2F%2Fflickr.com%2Fphotos%2Fargote&format=json&jsoncallback=?
+// https://api.flickr.com/services/rest/?method=flickr.urls.lookupUser&api_key=0b10ac3b8cc11da085d447ea647dbe67&url=https%3A%2F%2Fflickr.com%2Fphotos%2Fargote&format=json&jsoncallback=?
 
-// http://api.flickr.com/services/rest/?method=flickr.photosets.getList&api_key=0b10ac3b8cc11da085d447ea647dbe67&user_id=25184435%40N00&format=json&jsoncallback=?
+// https://api.flickr.com/services/rest/?method=flickr.photosets.getList&api_key=0b10ac3b8cc11da085d447ea647dbe67&user_id=25184435%40N00&format=json&jsoncallback=?

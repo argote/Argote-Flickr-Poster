@@ -266,12 +266,7 @@
 				<img src="images/loader.gif" alt="Loading..." />
 				<p id="loadStatus"></p>
 			</div>
-			<p class="footer"><a href="mailto:luis@argote.mx">Luis Edgardo Argote Bolio</a>, <?php
-				// Set the timezone to use
-				date_default_timezone_set('America/Monterrey');
-				// Prints the current year
-				echo date('Y');
-			?><br />
+			<p class="footer"><a href="mailto:luis@argote.mx">Luis Edgardo Argote Bolio</a>, 2014<br />
 			<a href="http://validator.w3.org/check?uri=referer" target="_blank">XHTML 1.0</a> | <a href="http://jigsaw.w3.org/css-validator/check/referer" target="_blank">CSS 2/3</a> | <a href="http://jquery.com/" target="_blank">jQuery</a> + <a href="http://www.isocra.com/2008/02/table-drag-and-drop-jquery-plugin/">Table drag and drop plugin</a></p>
 		</div>
 	</body>
